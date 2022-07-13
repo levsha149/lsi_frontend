@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ExportService } from '../export.service';
+import {MatSort, Sort} from '@angular/material/sort';
+import {MatTableDataSource} from "@angular/material/table";
 
 export interface Export {
   name: string;
@@ -17,18 +19,22 @@ export interface Export {
 
 export class HomeComponent implements OnInit {
 
-  displayedColumns: string[] = ['name', 'date', 'time', 'username', 'local'];
-  dataSource: Export[];
+  @ViewChild(MatSort) sort: MatSort = new MatSort();
+  dataSource: MatTableDataSource<Export> = new MatTableDataSource<Export>([]);
 
-  constructor(private dataService: ExportService) {
-    this.dataSource = [];
-  }
+  constructor(
+    private dataService: ExportService,
+  ) { }
+
+
+  displayedColumns: string[] = ['name', 'date', 'time', 'username', 'local'];
+
 
   ngOnInit() {
     this.dataService.getExports().subscribe((data: Export[]) => {
       console.log(data);
-      this.dataSource  = data;
-
+      this.dataSource = new MatTableDataSource<Export>(data);
+      this.dataSource.sort = this.sort;
     })
   }
 
