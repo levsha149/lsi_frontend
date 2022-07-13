@@ -1,0 +1,10 @@
+table {
+  width: 100%;
+  table-layout: fixed;
+}
+mat-form-field {
+  margin-right: 15px;
+}
+.example-header {
+  margin-bottom: 20px;
+}
